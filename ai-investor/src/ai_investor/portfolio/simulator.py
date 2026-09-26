@@ -109,7 +109,7 @@ class VirtualPortfolioService:
                     .join(AssetRow, PositionRow.asset_id == AssetRow.id)
                     .where(PositionRow.portfolio_id == row.id)
                     .order_by(AssetRow.symbol)
-                ).tuples()
+                )
             )
             cash = tuple(
                 CashBalance(amount=Decimal(c.amount), currency=c.currency)
@@ -355,7 +355,7 @@ class VirtualPortfolioService:
                 select(PositionRow, AssetRow)
                 .join(AssetRow, PositionRow.asset_id == AssetRow.id)
                 .where(PositionRow.portfolio_id == portfolio.id)
-            ).tuples()
+            )
         }
         # La date de référence est lue dans le JSON (fuseau horaire conservé), pas dans la
         # colonne SQL : SQLite ne stocke pas le fuseau.
