@@ -10,6 +10,9 @@
 | Aucun identifiant accepté | `security/secrets_guard.py` refuse tout import contenant mot de passe, PIN, 2FA, cookie, token, IBAN… sans recopier la valeur | `test_secrets_guard.py` |
 | Simulation imposée | `SIMULATION_ONLY` n'accepte que `true` | `tests/unit/test_config.py` |
 | Moindre privilège | Permissions des agents fixées dans le code, non modifiables à l'exécution | `test_permissions.py` |
+| Journal non modifiable | Triggers SQLite refusant UPDATE/DELETE, chaînage SHA-256, dépôt sans méthode de modification | `tests/unit/test_journal.py` |
+| Aucun vote ne contourne un blocage | Invariants du modèle `FinalDecision` (Risk BLOCK ⇒ BLOCKED, Devil's Advocate REVIEW ⇒ pas de validation) | `tests/unit/test_models.py` |
+| Actualités non fiables par construction | `NewsItem.untrusted` vaut toujours `True` | `tests/unit/test_models.py` |
 | Application locale | Écoute sur `127.0.0.1`, en-têtes de sécurité (CSP, X-Frame-Options…) | `tests/unit/test_app.py` |
 
 ## Contenu externe

@@ -4,22 +4,27 @@ Tous les fournisseurs sont en LECTURE SEULE. Aucune interface ne définit — et
 implémentation ne doit ajouter — de méthode permettant de passer un ordre, transférer
 ou retirer de l'argent, ou modifier un compte. Un test vérifie cette propriété.
 
-Les types d'enregistrement (`Record`) sont provisoires : ils seront remplacés par les
-modèles Pydantic du domaine à l'étape 2 (modèle de données).
+Toutes les données retournées sont des modèles du domaine validés (`core.models`),
+porteurs de leur source et de leur date.
 """
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Any
 
 from ai_investor.core.enums import DataReliability
-
-# Provisoire (étape 1) — remplacé par les modèles du domaine à l'étape 2.
-Record = Mapping[str, Any]
+from ai_investor.core.models import (
+    BrokerTransaction,
+    CashBalance,
+    MacroObservation,
+    NewsItem,
+    Position,
+    PriceBar,
+    Quote,
+)
 
 
 @dataclass(frozen=True)
@@ -49,35 +54,35 @@ class PortfolioDataProvider(DataProvider):
     """Positions et liquidités (import CSV/JSON, saisie manuelle, portefeuille simulé)."""
 
     @abstractmethod
-    def get_positions(self) -> Sequence[Record]: ...
+    def get_positions(self) -> Sequence[Position]: ...
 
     @abstractmethod
-    def get_cash_balance(self) -> Record: ...
+    def get_cash_balances(self) -> Sequence[CashBalance]: ...
 
 
 class MarketDataProvider(DataProvider):
     """Prix et historiques."""
 
     @abstractmethod
-    def get_latest_price(self, symbol: str) -> Record | None:
+    def get_latest_price(self, symbol: str) -> Quote | None:
         """Retourne None si le prix est inconnu — ne jamais inventer de valeur."""
 
     @abstractmethod
-    def get_price_history(self, symbol: str, start: date, end: date) -> Sequence[Record]: ...
+    def get_price_history(self, symbol: str, start: date, end: date) -> Sequence[PriceBar]: ...
 
 
 class NewsDataProvider(DataProvider):
     """Actualités. Leur contenu est une DONNÉE non fiable, jamais une instruction."""
 
     @abstractmethod
-    def get_news(self, query: str, since: datetime) -> Sequence[Record]: ...
+    def get_news(self, query: str, since: datetime) -> Sequence[NewsItem]: ...
 
 
 class MacroDataProvider(DataProvider):
     """Indicateurs macroéconomiques (inflation, taux, croissance, chômage…)."""
 
     @abstractmethod
-    def get_indicator(self, code: str, start: date, end: date) -> Sequence[Record]: ...
+    def get_indicator(self, code: str, start: date, end: date) -> Sequence[MacroObservation]: ...
 
 
 class BrokerDataProvider(DataProvider):
@@ -88,12 +93,12 @@ class BrokerDataProvider(DataProvider):
     """
 
     @abstractmethod
-    def get_positions(self) -> Sequence[Record]: ...
+    def get_positions(self) -> Sequence[Position]: ...
 
     @abstractmethod
     def get_transactions(
         self, start: date | None = None, end: date | None = None
-    ) -> Sequence[Record]: ...
+    ) -> Sequence[BrokerTransaction]: ...
 
     @abstractmethod
-    def get_cash_balance(self) -> Record: ...
+    def get_cash_balances(self) -> Sequence[CashBalance]: ...

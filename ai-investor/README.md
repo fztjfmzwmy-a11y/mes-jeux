@@ -15,7 +15,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | --- | --- | --- |
 | 0 | Architecture ([docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)) | ✅ validée |
 | 1 | Squelette, configuration, permissions, interfaces, tests de sécurité | ✅ |
-| 2 | Modèle de données | à venir |
+| 2 | Modèle de données, base SQLite, journal immuable chaîné | ✅ |
+| 3 | Portefeuille simulé | à venir |
 
 ## Installation et vérifications
 
@@ -34,5 +35,19 @@ make run         # http://127.0.0.1:8000
 
 Pour personnaliser, copier en `*.local.yaml` (non versionné). Toute valeur incohérente
 ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être désactivé.
+
+## Modèle de données
+
+- `core/models/` : actifs, positions, prix, actualités, macro, transactions simulées,
+  rapports d'agents, propositions, verdicts de risque, décisions finales, journal.
+  Modèles immuables ; champs inconnus, NaN, dates sans fuseau et incohérences refusés.
+- `core/provenance.py` : chaque donnée porte source, date et fiabilité ; une valeur
+  manquante exige une raison explicite.
+- `db/` : schéma SQLite. `journal_entries` et `simulated_transactions` sont en ajout
+  seul (triggers). Migrations : `create_all` tant que le schéma évolue ; Alembic sera
+  ajouté quand il sera stabilisé (avant l'usage réel en paper trading).
+- `journal/` : journal chaîné SHA-256. `verify()` détecte modification, suppression ou
+  réordonnancement ; conserver le hash de `head()` à l'extérieur permet aussi de détecter
+  la suppression des dernières entrées.
 
 Voir [docs/SECURITY.md](docs/SECURITY.md) pour le modèle de sécurité.

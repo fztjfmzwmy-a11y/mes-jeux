@@ -71,3 +71,73 @@ class DataReliability(StrEnum):
     THIRD_PARTY = "THIRD_PARTY"  # fournisseur de données tiers
     UNVERIFIED = "UNVERIFIED"  # actualité non recoupée, source inconnue
     SIMULATED = "SIMULATED"  # données fictives de test
+
+
+class SimulatedOperation(StrEnum):
+    """Opérations du portefeuille virtuel (section 13)."""
+
+    BUY = "BUY"  # achat d'une nouvelle position
+    SELL = "SELL"  # vente totale
+    REINFORCE = "REINFORCE"  # renforcement d'une position existante
+    REDUCE = "REDUCE"  # réduction partielle
+    HOLD = "HOLD"  # conservation (enregistrée, sans mouvement)
+    WAIT = "WAIT"  # attente (enregistrée, sans mouvement)
+    DEPOSIT = "DEPOSIT"  # apport de capital virtuel
+    WITHDRAWAL = "WITHDRAWAL"  # retrait de capital virtuel (aucun argent réel)
+
+
+MOVEMENT_OPERATIONS = frozenset(
+    {
+        SimulatedOperation.BUY,
+        SimulatedOperation.SELL,
+        SimulatedOperation.REINFORCE,
+        SimulatedOperation.REDUCE,
+    }
+)
+
+
+class BrokerOperation(StrEnum):
+    """Types d'opérations lues dans un export de courtier (données historiques)."""
+
+    BUY = "BUY"
+    SELL = "SELL"
+    DIVIDEND = "DIVIDEND"
+    INTEREST = "INTEREST"
+    DEPOSIT = "DEPOSIT"
+    WITHDRAWAL = "WITHDRAWAL"
+    FEE = "FEE"
+    TAX = "TAX"
+    OTHER = "OTHER"
+
+
+class AgentReportStatus(StrEnum):
+    OK = "OK"
+    INSUFFICIENT_DATA = "INSUFFICIENT_DATA"
+    UNAVAILABLE = "UNAVAILABLE"  # agent en erreur ou hors délai
+    UNKNOWN = "UNKNOWN"  # « je ne sais pas »
+
+
+class AgentVerdict(StrEnum):
+    """Avis émis par un agent dans le vote (section 12)."""
+
+    BUY = "BUY"
+    HOLD = "HOLD"
+    REDUCE = "REDUCE"
+    SELL = "SELL"
+    WAIT = "WAIT"
+    APPROVED = "APPROVED"
+    BLOCK = "BLOCK"
+    REVIEW_REQUIRED = "REVIEW_REQUIRED"
+    NO_OPINION = "NO_OPINION"
+
+
+class RiskOutcome(StrEnum):
+    PASS = "PASS"  # noqa: S105 — issue d'un contrôle, pas un mot de passe
+    WARN = "WARN"
+    BLOCK = "BLOCK"
+
+
+class JournalEntryType(StrEnum):
+    DECISION = "DECISION"  # décision simulée complète
+    OUTCOME = "OUTCOME"  # résultat ultérieur, lié à une décision (ne la modifie pas)
+    SECURITY_EVENT = "SECURITY_EVENT"  # tentative refusée (ordre réel, identifiants, injection…)
