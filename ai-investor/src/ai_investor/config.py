@@ -80,6 +80,9 @@ class Settings(BaseModel):
     DATABASE_URL: str = "sqlite:///data/ai_investor.db"
     MAX_DATA_AGE_DAYS: int = Field(default=3, ge=0)
     LLM_PROVIDER: Literal["none", "ollama", "anthropic"] = "none"
+    SIMULATION_INITIAL_CAPITAL: Decimal = Field(default=Decimal("10000"), ge=0)
+    SIMULATION_FEE_FIXED: Decimal = Field(default=Decimal("1"), ge=0)
+    SIMULATION_FEE_PERCENT: Decimal = Field(default=Decimal("0"), ge=0, le=10)
 
     @field_validator("SIMULATION_ONLY", mode="before")
     @classmethod

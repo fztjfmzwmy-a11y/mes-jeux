@@ -13,6 +13,8 @@
 | Journal non modifiable | Triggers SQLite refusant UPDATE/DELETE, chaînage SHA-256, dépôt sans méthode de modification | `tests/unit/test_journal.py` |
 | Aucun vote ne contourne un blocage | Invariants du modèle `FinalDecision` (Risk BLOCK ⇒ BLOCKED, Devil's Advocate REVIEW ⇒ pas de validation) | `tests/unit/test_models.py` |
 | Actualités non fiables par construction | `NewsItem.untrusted` vaut toujours `True` | `tests/unit/test_models.py` |
+| Simulation seulement | Transactions marquées `simulated=True` (non modifiable), aucun appel externe, retrait = capital virtuel | `tests/unit/test_simulator.py`, `test_ledger.py` |
+| Import sûr | Taille et nombre de lignes limités, tout ou rien, champs inconnus refusés, identifiants refusés, contenu conservé comme donnée | `tests/unit/test_importers.py` |
 | Application locale | Écoute sur `127.0.0.1`, en-têtes de sécurité (CSP, X-Frame-Options…) | `tests/unit/test_app.py` |
 
 ## Contenu externe

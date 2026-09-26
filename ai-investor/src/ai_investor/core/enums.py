@@ -84,6 +84,7 @@ class SimulatedOperation(StrEnum):
     WAIT = "WAIT"  # attente (enregistrée, sans mouvement)
     DEPOSIT = "DEPOSIT"  # apport de capital virtuel
     WITHDRAWAL = "WITHDRAWAL"  # retrait de capital virtuel (aucun argent réel)
+    IMPORT_POSITION = "IMPORT_POSITION"  # reprise d'une position existante (sans mouvement de cash)
 
 
 MOVEMENT_OPERATIONS = frozenset(
@@ -91,6 +92,7 @@ MOVEMENT_OPERATIONS = frozenset(
         SimulatedOperation.BUY,
         SimulatedOperation.SELL,
         SimulatedOperation.REINFORCE,
+        SimulatedOperation.IMPORT_POSITION,
         SimulatedOperation.REDUCE,
     }
 )

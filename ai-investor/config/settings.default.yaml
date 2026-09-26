@@ -9,3 +9,8 @@ PORT: 8000
 DATABASE_URL: sqlite:///data/ai_investor.db
 MAX_DATA_AGE_DAYS: 3             # Au-delà, une donnée de prix est considérée comme périmée.
 LLM_PROVIDER: none               # none | ollama | anthropic — désactivé par défaut.
+
+# Portefeuille virtuel. Valeurs d'exemple : à ajuster aux frais réels de votre courtier.
+SIMULATION_INITIAL_CAPITAL: 10000
+SIMULATION_FEE_FIXED: 1            # frais fixes par opération simulée
+SIMULATION_FEE_PERCENT: 0          # frais proportionnels, en % du montant

@@ -16,7 +16,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | 0 | Architecture ([docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)) | ✅ validée |
 | 1 | Squelette, configuration, permissions, interfaces, tests de sécurité | ✅ |
 | 2 | Modèle de données, base SQLite, journal immuable chaîné | ✅ |
-| 3 | Portefeuille simulé | à venir |
+| 3 | Portefeuille simulé, import CSV/JSON/manuel | ✅ |
+| 4 | Portfolio Agent | à venir |
 
 ## Installation et vérifications
 
@@ -49,5 +50,17 @@ ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être d
 - `journal/` : journal chaîné SHA-256. `verify()` détecte modification, suppression ou
   réordonnancement ; conserver le hash de `head()` à l'extérieur permet aussi de détecter
   la suppression des dernières entrées.
+
+## Portefeuille simulé
+
+- `portfolio/ledger.py` : comptabilité pure (achat, renforcement, réduction, vente,
+  conservation, attente, apport, retrait virtuel, reprise de position). PRU frais inclus,
+  plus-value réalisée, contrôles de liquidités et de quantités, historique non antidatable.
+- `portfolio/simulator.py` : portefeuille virtuel persistant ; chaque opération est
+  enregistrée (ajout seul) et `check_consistency()` recalcule l'état depuis l'historique.
+  Les règles de risque ne sont pas appliquées ici : c'est le rôle du Risk Manager.
+- `data/importers/positions.py` : import CSV/JSON (exemples dans `data/samples/`),
+  tout ou rien, erreurs détaillées par ligne, refus de tout champ d'identifiant.
+- V1 : une seule devise par portefeuille (pas de conversion inventée).
 
 Voir [docs/SECURITY.md](docs/SECURITY.md) pour le modèle de sécurité.

@@ -25,6 +25,7 @@ class SimulatedTransaction(DomainModel):
     price: PositiveDecimal | None = None
     amount: PositiveDecimal | None = None  # uniquement pour DEPOSIT / WITHDRAWAL
     fees: NonNegativeDecimal = Decimal("0")
+    realized_pnl: Decimal | None = None  # plus/moins-value réalisée (ventes, réductions)
     decision_ref: int | None = None  # numéro d'entrée du journal ayant motivé l'opération
     note: str = ""
     simulated: Literal[True] = True
@@ -37,12 +38,19 @@ class SimulatedTransaction(DomainModel):
                 raise ValueError(f"{op} : symbole, quantité et prix sont obligatoires")
             if self.amount is not None:
                 raise ValueError(f"{op} : 'amount' est réservé aux mouvements de liquidités")
+            if op == SimulatedOperation.IMPORT_POSITION and self.fees:
+                raise ValueError("IMPORT_POSITION : aucun frais (reprise d'une position existante)")
         elif op in _CASH_OPERATIONS:
             if self.amount is None or self.symbol or self.quantity or self.price:
                 raise ValueError(f"{op} : seul 'amount' est attendu")
         else:  # HOLD / WAIT : décision enregistrée sans mouvement
             if not self.symbol or self.quantity or self.price or self.amount or self.fees:
                 raise ValueError(f"{op} : seul le symbole est attendu (aucun mouvement)")
+        if self.realized_pnl is not None and op not in (
+            SimulatedOperation.SELL,
+            SimulatedOperation.REDUCE,
+        ):
+            raise ValueError("realized_pnl n'a de sens que pour SELL / REDUCE")
         return self
 
     @property

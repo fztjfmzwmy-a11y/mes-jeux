@@ -26,6 +26,8 @@ class PortfolioRow(Base):
     name: Mapped[str] = mapped_column(String(100), unique=True)
     base_currency: Mapped[str] = mapped_column(String(3))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    fee_fixed: Mapped[str] = mapped_column(String(40), server_default="0")
+    fee_percent: Mapped[str] = mapped_column(String(40), server_default="0")
 
 
 class AssetRow(Base):

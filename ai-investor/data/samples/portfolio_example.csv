@@ -1,0 +1,5 @@
+symbol;name;asset_type;currency;quantity;average_price;isin;sector;region;tracked_index
+CW8;Amundi MSCI World (exemple);ETF;EUR;12;412,50;LU1681043599;;Monde;MSCI World
+EWLD;Amundi PEA MSCI World (exemple);ETF;EUR;150;27,10;FR0011869353;;Monde;MSCI World
+AIR;Airbus (exemple);STOCK;EUR;8;128,40;NL0000235190;Industrie;Europe;
+MC;LVMH (exemple);STOCK;EUR;2;690,00;FR0000121014;Consommation;Europe;

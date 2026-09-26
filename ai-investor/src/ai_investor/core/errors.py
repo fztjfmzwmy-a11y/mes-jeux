@@ -31,3 +31,7 @@ class StaleDataError(AIInvestorError):
 
 class ProviderUnavailableError(AIInvestorError):
     """Fournisseur de données indisponible."""
+
+
+class SimulationError(AIInvestorError):
+    """Opération simulée impossible (liquidités insuffisantes, position inexistante…)."""
