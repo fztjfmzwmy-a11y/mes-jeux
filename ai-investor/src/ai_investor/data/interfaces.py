@@ -19,6 +19,7 @@ from ai_investor.core.enums import DataReliability
 from ai_investor.core.models import (
     BrokerTransaction,
     CashBalance,
+    Fundamentals,
     MacroObservation,
     NewsItem,
     Position,
@@ -69,6 +70,10 @@ class MarketDataProvider(DataProvider):
 
     @abstractmethod
     def get_price_history(self, symbol: str, start: date, end: date) -> Sequence[PriceBar]: ...
+
+    def get_fundamentals(self, symbol: str) -> Fundamentals | None:
+        """Valorisation (PER, P/B…). Par défaut : non disponible."""
+        return None
 
 
 class NewsDataProvider(DataProvider):

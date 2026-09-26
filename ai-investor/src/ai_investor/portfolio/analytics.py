@@ -11,7 +11,6 @@ Principes :
 
 from __future__ import annotations
 
-import math
 import statistics
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
@@ -24,10 +23,10 @@ from pydantic import AwareDatetime, BaseModel, ConfigDict
 from ai_investor.config import RiskRules, Settings
 from ai_investor.core.enums import AssetType, QualityLevel
 from ai_investor.core.models import CashBalance, Position, PriceBar, Quote
+from ai_investor.quant.indicators import annualized_volatility, drawdown, simple_returns, to_pct
 
 HUNDRED = Decimal(100)
 PCT = Decimal("0.01")
-TRADING_DAYS = 252
 
 CASH_BUCKET = "Liquidités"
 DIVERSIFIED_BUCKET = "Diversifié (ETF/fonds, détail indisponible)"
@@ -136,10 +135,6 @@ def _sector_bucket(position: Position) -> str:
 
 def _closes(bars: Sequence[PriceBar], currency: str) -> dict[date, Decimal]:
     return {b.day: b.close for b in bars if b.currency == currency}
-
-
-def _returns(series: Sequence[float]) -> list[float]:
-    return [series[i] / series[i - 1] - 1 for i in range(1, len(series)) if series[i - 1] > 0]
 
 
 def analyze_portfolio(
@@ -258,8 +253,8 @@ def analyze_portfolio(
             common = sorted(set(closes[a]) & set(closes[b]))
             if len(common) < min_days + 1:
                 continue
-            ra = _returns([float(closes[a][d]) for d in common])
-            rb = _returns([float(closes[b][d]) for d in common])
+            ra = simple_returns([float(closes[a][d]) for d in common])
+            rb = simple_returns([float(closes[b][d]) for d in common])
             try:
                 rho = statistics.correlation(ra, rb)
             except statistics.StatisticsError:
@@ -289,22 +284,16 @@ def analyze_portfolio(
                 )
                 for d in common_days
             ]
-            rets = _returns(series_values)
-            volatility = Decimal(statistics.stdev(rets) * math.sqrt(TRADING_DAYS) * 100).quantize(
-                PCT
-            )
-            peak = series_values[0]
-            worst = 0.0
-            for v in series_values:
-                peak = max(peak, v)
-                worst = min(worst, v / peak - 1)
-            max_dd = Decimal(worst * 100).quantize(PCT)
-            current_dd = Decimal((series_values[-1] / peak - 1) * 100).quantize(PCT)
+            vol = annualized_volatility(simple_returns(series_values))
+            volatility = to_pct(vol) if vol is not None else None
+            dd = drawdown(series_values)
+            if dd is not None:  # toujours vrai ici : la série est non vide
+                max_dd, current_dd = to_pct(dd.maximum), to_pct(dd.current)
             assumptions.append(
                 "Volatilité et drawdown calculés à quantités actuelles constantes sur "
                 f"{history_days} jours communs (reconstitution, pas l'historique réel)."
             )
-            if abs(current_dd) > rules.MAX_DRAWDOWN:
+            if current_dd is not None and abs(current_dd) > rules.MAX_DRAWDOWN:
                 alerts.append(
                     Alert(
                         code="DRAWDOWN_EXCEEDED",
@@ -313,7 +302,7 @@ def analyze_portfolio(
                         f"la limite de {rules.MAX_DRAWDOWN} %",
                     )
                 )
-            elif abs(max_dd) > rules.MAX_DRAWDOWN:
+            elif max_dd is not None and abs(max_dd) > rules.MAX_DRAWDOWN:
                 alerts.append(
                     Alert(
                         code="PAST_DRAWDOWN_EXCEEDED",

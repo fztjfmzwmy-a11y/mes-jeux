@@ -18,7 +18,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | 2 | Modèle de données, base SQLite, journal immuable chaîné | ✅ |
 | 3 | Portefeuille simulé, import CSV/JSON/manuel | ✅ |
 | 4 | Portfolio Agent | ✅ |
-| 5 | Market Agent | à venir |
+| 5 | Market Agent | ✅ |
+| 6 | Quant Agent | à venir |
 
 ## Installation et vérifications
 
@@ -74,6 +75,15 @@ ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être d
   corrélations, volatilité et drawdown reconstitués, variations anormales, actifs hors règles.
   Prix manquant ⇒ valeur totale INCONNUE et `DONNÉES INSUFFISANTES` ; le PRU n'est jamais
   utilisé comme prix de marché.
+- `agents/market_agent.py` : dernier prix, performances 1M/3M/6M/1A, MM50/MM200, tendance,
+  momentum, volatilité et drawdown 1 an, comparaison à un indice et à une référence
+  sectorielle, valorisation si disponible. FACTS / INTERPRETATIONS / HYPOTHESES séparés ;
+  règles de lecture affichées ; « JE NE SAIS PAS » si moins de 200 cours.
+- `data/validation.py` : prix aberrants (pic, saut, dernier cours non confirmé, prix éloigné
+  du dernier cours), trous, doublons, dates futures, devises mélangées. Rien n'est corrigé en
+  silence : tout est signalé et abaisse la qualité des données.
+- `quant/indicators.py` : rendements, moyenne mobile, volatilité, drawdown, performance
+  sur période (sans extrapolation).
 - `data/providers/csv_prices.py` : historiques de prix depuis un CSV (`symbol, day, close,
   currency`).
 

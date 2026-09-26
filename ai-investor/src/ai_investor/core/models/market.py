@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date
+from decimal import Decimal
 
 from pydantic import AwareDatetime, Field, model_validator
 
@@ -42,3 +43,16 @@ class Quote(DomainModel):
     currency: Currency
     as_of: AwareDatetime
     source: Source
+
+
+class Fundamentals(DomainModel):
+    """Données de valorisation, toutes facultatives : une valeur absente reste absente."""
+
+    symbol: str
+    as_of: AwareDatetime
+    source: Source
+    price_earnings: Decimal | None = None
+    price_book: Decimal | None = None
+    dividend_yield_percent: Decimal | None = None
+    ev_ebitda: Decimal | None = None
+    currency: Currency | None = None

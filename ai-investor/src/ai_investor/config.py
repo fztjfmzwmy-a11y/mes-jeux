@@ -87,6 +87,9 @@ class Settings(BaseModel):
     CORRELATION_ALERT_THRESHOLD: Decimal = Field(default=Decimal("0.8"), gt=0, le=1)
     CONCENTRATION_HHI_ALERT: Decimal = Field(default=Decimal("0.25"), gt=0, le=1)
     MIN_HISTORY_DAYS: int = Field(default=20, ge=2)
+    MARKET_BENCHMARK_SYMBOL: str | None = None
+    OUTLIER_JUMP_PERCENT: Decimal = Field(default=Decimal("25"), gt=0, le=100)
+    MAX_HISTORY_GAP_DAYS: int = Field(default=7, ge=1)
 
     @field_validator("SIMULATION_ONLY", mode="before")
     @classmethod

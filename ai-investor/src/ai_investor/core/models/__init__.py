@@ -10,7 +10,7 @@ from ai_investor.core.models.decision import (
 )
 from ai_investor.core.models.journal import JournalRecord
 from ai_investor.core.models.macro import MacroObservation
-from ai_investor.core.models.market import PriceBar, Quote
+from ai_investor.core.models.market import Fundamentals, PriceBar, Quote
 from ai_investor.core.models.news import NewsItem
 from ai_investor.core.models.portfolio import CashBalance, PortfolioSnapshot, Position
 from ai_investor.core.models.transaction import BrokerTransaction, SimulatedTransaction
@@ -22,6 +22,7 @@ __all__ = [
     "CashBalance",
     "DataReference",
     "FinalDecision",
+    "Fundamentals",
     "JournalRecord",
     "MacroObservation",
     "NewsItem",

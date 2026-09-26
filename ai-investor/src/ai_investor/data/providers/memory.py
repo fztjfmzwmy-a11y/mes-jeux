@@ -7,7 +7,7 @@ from datetime import date
 
 from ai_investor.core.enums import DataReliability
 from ai_investor.core.errors import ProviderUnavailableError
-from ai_investor.core.models import PriceBar, Quote
+from ai_investor.core.models import Fundamentals, PriceBar, Quote
 from ai_investor.data.interfaces import MarketDataProvider, ProviderInfo
 
 
@@ -19,7 +19,9 @@ class InMemoryMarketDataProvider(MarketDataProvider):
         name: str = "memoire",
         reliability: DataReliability = DataReliability.SIMULATED,
         available: bool = True,
+        fundamentals: Iterable[Fundamentals] = (),
     ) -> None:
+        self._fundamentals = {f.symbol.upper(): f for f in fundamentals}
         self._quotes: dict[str, Quote] = {}
         for quote in quotes:
             current = self._quotes.get(quote.symbol)
@@ -48,3 +50,7 @@ class InMemoryMarketDataProvider(MarketDataProvider):
     def get_price_history(self, symbol: str, start: date, end: date) -> Sequence[PriceBar]:
         self._check()
         return [b for b in self._bars.get(symbol.upper(), []) if start <= b.day <= end]
+
+    def get_fundamentals(self, symbol: str) -> Fundamentals | None:
+        self._check()
+        return self._fundamentals.get(symbol.upper())

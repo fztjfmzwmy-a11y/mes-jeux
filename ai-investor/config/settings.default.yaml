@@ -20,3 +20,8 @@ ABNORMAL_DAILY_MOVE_PERCENT: 8     # variation journalière signalée comme anor
 CORRELATION_ALERT_THRESHOLD: 0.8   # corrélation signalée entre deux positions
 CONCENTRATION_HHI_ALERT: 0.25      # indice de Herfindahl (0.25 ≈ 4 positions équivalentes)
 MIN_HISTORY_DAYS: 20               # historique minimum pour volatilité / corrélations
+
+# Analyse de marché.
+MARKET_BENCHMARK_SYMBOL: null      # indice/ETF de référence (ex. un ETF MSCI World), facultatif
+OUTLIER_JUMP_PERCENT: 25           # variation journalière au-delà de laquelle un prix est suspect
+MAX_HISTORY_GAP_DAYS: 7            # trou maximal toléré dans un historique (jours calendaires)
