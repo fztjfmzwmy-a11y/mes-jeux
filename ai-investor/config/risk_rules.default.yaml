@@ -1,0 +1,21 @@
+# Règles de risque par défaut.
+#
+# AVERTISSEMENT : ces valeurs sont des GARDE-FOUS TECHNIQUES génériques destinés à faire
+# fonctionner la simulation. Elles ne constituent PAS une recommandation financière
+# personnalisée. Adaptez-les à votre situation (copie dans config/risk_rules.local.yaml).
+#
+# Les pourcentages sont exprimés en % (10 = 10 %). Les montants sont dans BASE_CURRENCY.
+
+MAX_TRANSACTION_AMOUNT: 1000         # Montant maximum d'une opération simulée.
+MAX_POSITION_PERCENT: 10             # Poids maximum d'un actif dans le portefeuille.
+MAX_SECTOR_EXPOSURE: 30              # Exposition maximum à un secteur.
+MIN_CASH_PERCENT: 5                  # Liquidités minimum à conserver.
+MAX_DRAWDOWN: 20                     # Perte maximale acceptable depuis le plus haut.
+ALLOW_LEVERAGE: false
+ALLOW_COMPLEX_PRODUCTS: false
+
+ALLOWED_ASSET_TYPES: [STOCK, ETF, BOND, FUND, CASH]
+BLOCKED_ASSET_TYPES: [LEVERAGED_ETF, DERIVATIVE, WARRANT, CFD, KNOCK_OUT, CRYPTO]
+
+# Actifs interdits par l'utilisateur (ISIN ou symbole).
+FORBIDDEN_ASSETS: []

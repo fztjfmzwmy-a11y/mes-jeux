@@ -1,7 +1,7 @@
 # AI Investor — Proposition d'architecture (Étape 0)
 
 > Document de conception, **aucun code applicatif**.
-> Statut : **en attente de validation** avant l'étape 1.
+> Statut : **validé** (choix par défaut du §9 retenus).
 >
 > AI Investor est un **outil d'aide à la décision en simulation**. Il ne prédit pas les marchés,
 > n'exécute aucun ordre et ne constitue pas un conseil en investissement.
@@ -377,11 +377,10 @@ Après chaque étape : tests → corrections → revue sécurité → explicatio
 
 ---
 
-## 9. Points à valider
+## 9. Choix validés
 
-1. **Emplacement** : sous-dossier `ai-investor/` de ce dépôt (proposé) ou dépôt dédié ?
-2. **Stack** : Python + FastAPI + SQLite + HTMX conviennent-ils ?
-3. **LLM** : aucun (explications par gabarits), local (Ollama) ou API Claude — et à partir de quelle étape ?
-4. **Devise de base** : EUR ?
-5. **Ordre du pipeline** : Strategist → Risk Manager → Devil's Advocate → Final Review (avec pré-contrôle
-   risque), comme proposé au §2.1 ?
+1. **Emplacement** : sous-dossier `ai-investor/` de ce dépôt.
+2. **Stack** : Python + FastAPI + SQLite + HTMX.
+3. **LLM** : aucun pour l'instant (`LLM_PROVIDER: none`) ; la question sera rouverte plus tard.
+4. **Devise de base** : EUR.
+5. **Ordre du pipeline** : pré-contrôle risque → Strategist → Risk Manager → Devil's Advocate → Final Review.
