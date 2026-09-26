@@ -17,7 +17,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | 1 | Squelette, configuration, permissions, interfaces, tests de sécurité | ✅ |
 | 2 | Modèle de données, base SQLite, journal immuable chaîné | ✅ |
 | 3 | Portefeuille simulé, import CSV/JSON/manuel | ✅ |
-| 4 | Portfolio Agent | à venir |
+| 4 | Portfolio Agent | ✅ |
+| 5 | Market Agent | à venir |
 
 ## Installation et vérifications
 
@@ -62,5 +63,18 @@ ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être d
 - `data/importers/positions.py` : import CSV/JSON (exemples dans `data/samples/`),
   tout ou rien, erreurs détaillées par ligne, refus de tout champ d'identifiant.
 - V1 : une seule devise par portefeuille (pas de conversion inventée).
+
+## Agents
+
+- `agents/base.py` : `AgentContext` n'expose que les sources permises par le rôle ;
+  `run_agent()` transforme toute panne d'agent en rapport `UNAVAILABLE` (jamais une opinion),
+  mais laisse remonter toute violation de sécurité.
+- `agents/portfolio_agent.py` + `portfolio/analytics.py` : valorisation, poids, performance
+  latente, expositions (secteur, zone, devise, type), concentration (HHI), doublons d'ETF,
+  corrélations, volatilité et drawdown reconstitués, variations anormales, actifs hors règles.
+  Prix manquant ⇒ valeur totale INCONNUE et `DONNÉES INSUFFISANTES` ; le PRU n'est jamais
+  utilisé comme prix de marché.
+- `data/providers/csv_prices.py` : historiques de prix depuis un CSV (`symbol, day, close,
+  currency`).
 
 Voir [docs/SECURITY.md](docs/SECURITY.md) pour le modèle de sécurité.

@@ -14,3 +14,9 @@ LLM_PROVIDER: none               # none | ollama | anthropic — désactivé par
 SIMULATION_INITIAL_CAPITAL: 10000
 SIMULATION_FEE_FIXED: 1            # frais fixes par opération simulée
 SIMULATION_FEE_PERCENT: 0          # frais proportionnels, en % du montant
+
+# Seuils d'analyse (détection, pas de blocage : le blocage relève du Risk Manager).
+ABNORMAL_DAILY_MOVE_PERCENT: 8     # variation journalière signalée comme anormale
+CORRELATION_ALERT_THRESHOLD: 0.8   # corrélation signalée entre deux positions
+CONCENTRATION_HHI_ALERT: 0.25      # indice de Herfindahl (0.25 ≈ 4 positions équivalentes)
+MIN_HISTORY_DAYS: 20               # historique minimum pour volatilité / corrélations

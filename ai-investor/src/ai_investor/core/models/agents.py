@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from pydantic import AwareDatetime, model_validator
+from typing import Any
+
+from pydantic import AwareDatetime, Field, model_validator
 
 from ai_investor.core.enums import AgentReportStatus, AgentVerdict
 from ai_investor.core.models._base import DomainModel
@@ -31,6 +33,8 @@ class AgentReport(DomainModel):
     risks: tuple[str, ...] = ()
     data_used: tuple[DataReference, ...] = ()
     errors: tuple[str, ...] = ()
+    # Résultats structurés (JSON) destinés aux autres agents et au journal.
+    payload: dict[str, Any] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def _honest(self) -> AgentReport:

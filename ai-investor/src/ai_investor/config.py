@@ -83,6 +83,10 @@ class Settings(BaseModel):
     SIMULATION_INITIAL_CAPITAL: Decimal = Field(default=Decimal("10000"), ge=0)
     SIMULATION_FEE_FIXED: Decimal = Field(default=Decimal("1"), ge=0)
     SIMULATION_FEE_PERCENT: Decimal = Field(default=Decimal("0"), ge=0, le=10)
+    ABNORMAL_DAILY_MOVE_PERCENT: Decimal = Field(default=Decimal("8"), gt=0, le=100)
+    CORRELATION_ALERT_THRESHOLD: Decimal = Field(default=Decimal("0.8"), gt=0, le=1)
+    CONCENTRATION_HHI_ALERT: Decimal = Field(default=Decimal("0.25"), gt=0, le=1)
+    MIN_HISTORY_DAYS: int = Field(default=20, ge=2)
 
     @field_validator("SIMULATION_ONLY", mode="before")
     @classmethod
