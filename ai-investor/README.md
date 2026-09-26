@@ -20,7 +20,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | 4 | Portfolio Agent | ✅ |
 | 5 | Market Agent | ✅ |
 | 6 | Quant Agent | ✅ |
-| 7 | Macro Agent | à venir |
+| 7 | Macro Agent | ✅ |
+| 8 | News Agent | à venir |
 
 ## Installation et vérifications
 
@@ -89,6 +90,11 @@ ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être d
   corrélations, moyennes mobiles, variations, Monte Carlo (bootstrap, graine fixe →
   reproductible, fourchette P5–P95) et backtests Buy & Hold vs filtre MM (sans biais
   d'anticipation, frais inclus). « PERFORMANCE HISTORIQUE ≠ PERFORMANCE FUTURE » partout.
+- `agents/macro_agent.py` + `macro/analysis.py` : inflation, taux directeur, taux 10 ans,
+  croissance, chômage → signaux (règles affichées) et TOUJOURS trois scénarios (central,
+  favorable, défavorable), sans probabilité. Ne vote jamais BUY. Données via CSV
+  (`data/samples/macro_example.csv`, valeurs fictives) ; API officielles (BCE, Eurostat)
+  branchables plus tard sur la même interface.
 - `data/providers/csv_prices.py` : historiques de prix depuis un CSV (`symbol, day, close,
   currency`).
 

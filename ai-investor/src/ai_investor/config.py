@@ -96,6 +96,8 @@ class Settings(BaseModel):
     MONTE_CARLO_HORIZON_DAYS: int = Field(default=252, ge=5, le=252 * 30)
     QUANT_MIN_HISTORY_DAYS: int = Field(default=252, ge=30)
     QUANT_SHARPE_BUY_THRESHOLD: Decimal = Field(default=Decimal("0.5"))
+    MACRO_INFLATION_TARGET_PERCENT: Decimal = Field(default=Decimal("2"), ge=0, le=20)
+    MACRO_STABLE_THRESHOLD: Decimal = Field(default=Decimal("0.25"), gt=0, le=5)
 
     @field_validator("SIMULATION_ONLY", mode="before")
     @classmethod
