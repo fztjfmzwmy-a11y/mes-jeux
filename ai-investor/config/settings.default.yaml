@@ -37,3 +37,7 @@ QUANT_SHARPE_BUY_THRESHOLD: 0.5    # Sharpe historique à partir duquel le signa
 # Analyse macroéconomique.
 MACRO_INFLATION_TARGET_PERCENT: 2  # cible d'inflation de référence (celle de la BCE)
 MACRO_STABLE_THRESHOLD: 0.25       # variation (en points) en deçà de laquelle un indicateur est « stable »
+
+# Actualités.
+NEWS_LOOKBACK_DAYS: 14             # ancienneté maximale des actualités prises en compte
+NEWS_MAX_ITEMS: 50                 # nombre maximal d'actualités analysées par demande

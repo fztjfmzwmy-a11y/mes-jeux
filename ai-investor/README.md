@@ -21,7 +21,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | 5 | Market Agent | ✅ |
 | 6 | Quant Agent | ✅ |
 | 7 | Macro Agent | ✅ |
-| 8 | News Agent | à venir |
+| 8 | News Agent | ✅ |
+| 9 | Risk Manager | à venir |
 
 ## Installation et vérifications
 
@@ -95,6 +96,13 @@ ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être d
   favorable, défavorable), sans probabilité. Ne vote jamais BUY. Données via CSV
   (`data/samples/macro_example.csv`, valeurs fictives) ; API officielles (BCE, Eurostat)
   branchables plus tard sur la même interface.
+- `agents/news_agent.py` + `news/analysis.py` : source, date, sujet, résumé (extrait),
+  catégorie, impact potentiel (heuristique affichée), fiabilité (source + recoupement).
+  Seules les informations HIGH sont citées comme faits, toujours attribuées (« Selon… ») ;
+  le reste est « NON VÉRIFIÉ ». Ne vote jamais BUY/SELL ; REVIEW_REQUIRED sur événement
+  fiable et significatif. Import JSON (fiabilité USER_PROVIDED, jamais auto-déclarée).
+- `security/sanitizer.py` : nettoyage du texte externe, détection d'injection de prompt,
+  URL sûres, encadrement des données non fiables.
 - `data/providers/csv_prices.py` : historiques de prix depuis un CSV (`symbol, day, close,
   currency`).
 

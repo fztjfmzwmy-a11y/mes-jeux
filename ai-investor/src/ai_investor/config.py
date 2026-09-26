@@ -98,6 +98,8 @@ class Settings(BaseModel):
     QUANT_SHARPE_BUY_THRESHOLD: Decimal = Field(default=Decimal("0.5"))
     MACRO_INFLATION_TARGET_PERCENT: Decimal = Field(default=Decimal("2"), ge=0, le=20)
     MACRO_STABLE_THRESHOLD: Decimal = Field(default=Decimal("0.25"), gt=0, le=5)
+    NEWS_LOOKBACK_DAYS: int = Field(default=14, ge=1, le=365)
+    NEWS_MAX_ITEMS: int = Field(default=50, ge=1, le=1000)
 
     @field_validator("SIMULATION_ONLY", mode="before")
     @classmethod

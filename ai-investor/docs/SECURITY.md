@@ -20,8 +20,21 @@
 ## Contenu externe
 
 Les actualités, fichiers et données externes sont des **données**, jamais des
-instructions. Les défenses contre l'injection de prompt seront ajoutées avec le
-News Agent (étape 8) et testées.
+instructions :
+
+- aucun agent n'interprète de texte : les avis dépendent uniquement de calculs et de règles ;
+- `security/sanitizer.py` nettoie le texte (contrôle, invisibles, HTML) et détecte les
+  tentatives d'injection (consignes à l'IA, faux rôles « system: », demandes d'ordre,
+  d'identifiants, de contournement des règles) ;
+- une actualité suspecte est écartée, sa fiabilité passe à LOW, elle ne peut pas servir de
+  recoupement, et un `SECURITY_EVENT` est remonté pour journalisation ;
+- seules les URL http(s) sont conservées ;
+- `wrap_untrusted()` encadre le texte si un modèle de langage est un jour activé.
+
+La sécurité ne dépend pas de la détection (qui peut manquer une formulation) : même une
+injection non détectée ne peut rien déclencher, faute de capacité d'exécution.
+
+Tests : `tests/security/test_prompt_injection.py`, `tests/agents/test_news_agent.py`.
 
 ## Liste d'exclusions
 
