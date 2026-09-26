@@ -90,6 +90,12 @@ class Settings(BaseModel):
     MARKET_BENCHMARK_SYMBOL: str | None = None
     OUTLIER_JUMP_PERCENT: Decimal = Field(default=Decimal("25"), gt=0, le=100)
     MAX_HISTORY_GAP_DAYS: int = Field(default=7, ge=1)
+    RISK_FREE_RATE_PERCENT: Decimal = Field(default=Decimal("0"), ge=-5, le=20)
+    MONTE_CARLO_PATHS: int = Field(default=1000, ge=100, le=100_000)
+    MONTE_CARLO_SEED: int = 42
+    MONTE_CARLO_HORIZON_DAYS: int = Field(default=252, ge=5, le=252 * 30)
+    QUANT_MIN_HISTORY_DAYS: int = Field(default=252, ge=30)
+    QUANT_SHARPE_BUY_THRESHOLD: Decimal = Field(default=Decimal("0.5"))
 
     @field_validator("SIMULATION_ONLY", mode="before")
     @classmethod

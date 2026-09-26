@@ -25,3 +25,11 @@ MIN_HISTORY_DAYS: 20               # historique minimum pour volatilité / corr�
 MARKET_BENCHMARK_SYMBOL: null      # indice/ETF de référence (ex. un ETF MSCI World), facultatif
 OUTLIER_JUMP_PERCENT: 25           # variation journalière au-delà de laquelle un prix est suspect
 MAX_HISTORY_GAP_DAYS: 7            # trou maximal toléré dans un historique (jours calendaires)
+
+# Analyse quantitative (mesures du passé, jamais des prévisions).
+RISK_FREE_RATE_PERCENT: 0          # taux sans risque utilisé pour le Sharpe (hypothèse)
+MONTE_CARLO_PATHS: 1000            # nombre de scénarios simulés
+MONTE_CARLO_SEED: 42               # graine : résultats reproductibles
+MONTE_CARLO_HORIZON_DAYS: 252      # horizon des scénarios (jours de bourse)
+QUANT_MIN_HISTORY_DAYS: 252        # historique minimum pour un avis quantitatif
+QUANT_SHARPE_BUY_THRESHOLD: 0.5    # Sharpe historique à partir duquel le signal est BUY

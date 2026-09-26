@@ -19,7 +19,8 @@ jamais d'identifiants (mot de passe, PIN, 2FA, cookies, tokens, IBAN).
 | 3 | Portefeuille simulé, import CSV/JSON/manuel | ✅ |
 | 4 | Portfolio Agent | ✅ |
 | 5 | Market Agent | ✅ |
-| 6 | Quant Agent | à venir |
+| 6 | Quant Agent | ✅ |
+| 7 | Macro Agent | à venir |
 
 ## Installation et vérifications
 
@@ -84,6 +85,10 @@ ou dangereuse est refusée au démarrage ; `SIMULATION_ONLY` ne peut pas être d
   silence : tout est signalé et abaisse la qualité des données.
 - `quant/indicators.py` : rendements, moyenne mobile, volatilité, drawdown, performance
   sur période (sans extrapolation).
+- `agents/quant_agent.py` + `quant/` : rendement, CAGR, volatilité, drawdown, Sharpe, bêta,
+  corrélations, moyennes mobiles, variations, Monte Carlo (bootstrap, graine fixe →
+  reproductible, fourchette P5–P95) et backtests Buy & Hold vs filtre MM (sans biais
+  d'anticipation, frais inclus). « PERFORMANCE HISTORIQUE ≠ PERFORMANCE FUTURE » partout.
 - `data/providers/csv_prices.py` : historiques de prix depuis un CSV (`symbol, day, close,
   currency`).
 
