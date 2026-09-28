@@ -1,0 +1,11 @@
+{
+  "positions": [
+    {"symbol": "CW8", "name": "Amundi MSCI World (exemple)", "asset_type": "ETF", "currency": "EUR",
+     "quantity": "12", "average_price": "412.50", "isin": "LU1681043599", "region": "Monde",
+     "tracked_index": "MSCI World"},
+    {"symbol": "AIR", "name": "Airbus (exemple)", "asset_type": "STOCK", "currency": "EUR",
+     "quantity": "8", "average_price": "128.40", "isin": "NL0000235190", "sector": "Industrie",
+     "region": "Europe"}
+  ],
+  "cash": [{"currency": "EUR", "amount": "1500.00"}]
+}
